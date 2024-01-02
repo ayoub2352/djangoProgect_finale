@@ -20,6 +20,9 @@ class Client(models.Model):
     CIN = models.CharField(max_length=8)
     solde = models.IntegerField(default=0)
     # client_image = models.ImageField(upload_to='images/')
+    def __str__(self) : 
+     return self.fk_user.username
+
 
 class Voyage(models.Model):
     titre = models.CharField(max_length=100)
@@ -33,6 +36,8 @@ class Voyage(models.Model):
         ]
     )
     # image_voyage = models.ImageField(upload_to='images/')
+    def __str__(self) : 
+     return self.titre
 
 class Client_voyage(models.Model):
     fk_client = models.ForeignKey(Client, on_delete=models.CASCADE)
