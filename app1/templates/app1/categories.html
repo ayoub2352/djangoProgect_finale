@@ -1,0 +1,26 @@
+<a class="btn btn-warning" href="{% url 'AdminPage' %}"> &#8592; Back to Profile</a>
+<a class="btn btn-warning" href="{% url 'addcategorie' %}"> add categorie</a>
+
+<hr>
+<h1>liste des categories</h1>
+<div class="card card-body">
+      
+  <table class="table table-sm">
+    <tr>
+      <th>id</th>
+      <th>nom</th>
+      <th>description</th>
+      <th>Update</th>
+      <th>Remove</th>
+    </tr>
+    {%for categorie in categories%}
+      <tr>
+        <td>{{categorie.id}}</td>
+        <td>{{categorie.nom}}</td>
+        <td>{{categorie.description}}</td>
+        <td><a class="btn btn-sm btn-danger" href="{% url 'updatecategorie' categorie.id %}">update</a></td>
+        <td><a class="btn btn-sm btn-danger" href="{% url 'deletecategorie' categorie.id %}">remove</a></td>
+      </tr>
+      {%endfor%}
+  </table>
+</div>

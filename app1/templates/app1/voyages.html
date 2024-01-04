@@ -1,0 +1,28 @@
+<a class="btn btn-warning" href="{% url 'AdminPage' %}"> &#8592; Back to Profile</a>
+<span ><a class="hello-msg" href="{% url 'addvoyage' %}">add voyage</a></span>
+
+<hr>
+<h1>liste des voyages</h1>
+<div class="card card-body">
+      
+  <table class="table table-sm">
+    <tr>
+      <th>id</th>
+      <th>titre</th>
+      <th>prix</th>
+      <th>categorie</th>
+      <th>Update</th>
+      <th>Remove</th>
+    </tr>
+    {%for voyage in voyages%}
+      <tr>
+        <td>{{voyage.id}}</td>
+        <td>{{voyage.titre}}</td>
+        <td>{{voyage.prix}}</td>
+        <td>{{voyage.categorie}}</td>
+        <td><a class="btn btn-sm btn-danger" href="{% url 'updatevoyage' voyage.id %}">update</a></td>
+        <td><a class="btn btn-sm btn-danger" href="{% url 'deletevoyage' voyage.id %}">remove</a></td>
+      </tr>
+      {%endfor%}
+  </table>
+</div>

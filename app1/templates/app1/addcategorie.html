@@ -1,0 +1,16 @@
+<a class="btn btn-warning" href="{% url 'categories' %}"> &#8592; Back to Profile</a>
+<hr>
+<div class="col-md-9">
+  <div class="card card-body">
+    
+    <form method="POST" action="" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{form.as_p}}
+  
+    <input class="btn btn-primary" type="submit" name="Update Information">
+    </form>
+  </div>
+</div>
+{% if form.errors %}
+    <p>Form has errors: {{ form.errors }}</p>
+{% endif %}

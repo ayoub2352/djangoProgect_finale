@@ -1,7 +1,28 @@
-{%  extends 'app1/main.html' %}
+{% extends 'app1/main.html' %}
 
 {% block content %}
 
-	<h1>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique, accusantium veniam possimus molestias at quae, porro totam quia corrupti, magni culpa doloribus dolore quisquam aspernatur numquam distinctio laudantium ratione Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia expedita possimus impedit blanditiis dolorem libero ut fuga animi, atque eos nam unde? Earum laboriosam ad fugit? Officiis harum nostrum debitis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex laboriosam aliquam, harum corrupti voluptatem fugiat deleniti quisquam, explicabo debitis nam quae fugit voluptate sunt, facere ipsum voluptas nulla accusamus odio! Lorem, ipsum dolor sit amet consectetur adipisicing elit. Temporibus, excepturi saepe laudantium rerum odit, nostrum officiis magni, natus dolore corrupti laboriosam. Sit eveniet at voluptates recusandae inventore labore architecto quasi! Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem quas non error deleniti nihil at expedita, ea cupiditate recusandae, quidem nemo dolorem repellendus. Consequatur possimus reprehenderit odit quaerat repudiandae natus! Lorem ipsum dolor, sit amet consectetur adipisicing elit. Recusandae, mollitia. Delectus assumenda ea a explicabo inventore quas ipsam cupiditate natus dolor nam voluptatem, id atque doloremque, magni omnis quasi dicta. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Expedita vel architecto possimus facilis quia harum est debitis blanditiis repellendus ipsam magni iure, cumque laborum molestias vero, esse, laudantium culpa magnam! Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis quis quam impedit non! Vitae, distinctio quis accusantium tempore dolor minus nesciunt unde officiis maxime, fugit tempora facere, sint exercitationem velit. Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum labore quod reiciendis harum ut. Labore iste asperiores distinctio cum voluptates fugit nesciunt beatae unde, blanditiis quidem. Reprehenderit illum velit debitis. lorm</h1>
+    <div class="container">
+        <h1 class="text-center">List of Voyages</h1>
+        <hr>
 
+        {% for voyage in voyages %}
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h2 class="card-title">{{ voyage.titre }}</h2>
+                    <p class="card-text">{{ voyage.description }}</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Departure Date:</strong> {{ voyage.date_depart }}</li>
+                        <li><strong>Arrival Date:</strong> {{ voyage.date_arrivee }}</li>
+                        <li><strong>Price:</strong> ${{ voyage.prix }}</li>
+                        <li><strong>Available Places:</strong> {{ voyage.nbr_places }}</li>
+                        <li><strong>categorie:</strong> {{ voyage.categorie }}</li>
+                    </ul>
+                    {% if voyage.image_voyage %}
+                        <img src="{{ voyage.image_voyage.url }}" alt="{{ voyage.titre }} Image" class="img-fluid">
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock content %}

@@ -1,0 +1,7 @@
+<a class="btn btn-warning" href="{% url 'AdminPage' %}"> &#8592; Back to Profile</a>
+<hr>
+<form method="POST" action="">
+  {% csrf_token %}
+ {{form.as_p}}
+ <input class="btn login_btn" type="submit" value="Register Account">
+</form>
