@@ -1,11 +1,17 @@
 from django.shortcuts import render , redirect
-from .forms import ClientRegistrationForm , AdminstrateurRegistrationForm , ClientSettingsForm , VoyageForm , categorieForm
+from .forms import ClientRegistrationForm , AdminstrateurRegistrationForm , ClientSettingsForm , VoyageForm , categorieForm , hotelForm , volForm
 from django.contrib.auth import authenticate , login , logout 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required 
 from .decorators import user_authenticated , allowed_users
 from django.http import HttpResponse
-from .models import Voyage , Categorie
+from .models import Voyage , Categorie , Client_voyage ,Hotel , Vol , Client
+import stripe
+from datetime import date
+
+
+stripe.api_key = "sk_test_51MxJ30AhdCO5CiRyKgfCeJhC1y2i1iXTiUBS9YpKaQYtSp5ZmMpJ2Y8yIRtQUMzmvJHZtCIt0xkYmBO7NslpAqkx00PZKLjYrT"
+
 # Create your views here.
 def home(request) : 
     voyages = Voyage.objects.all()
@@ -56,8 +62,9 @@ def register(request): #
 @login_required(login_url='home') #ila makanch mconecti aymchi l home
 @allowed_users(allowed_roles=['client']) #katkhli ghir clients homa li ydkhlo t9dr tbdl roles kima bghiti 3la 7sab groups 
 def ClientPage(request): 
-        
-    context ={}
+    voyages = Voyage.objects.all()
+    print(voyages)    
+    context ={'voyages':voyages}
     return render(request , 'app1/ClientPage.html',context)
 
 
@@ -204,3 +211,164 @@ def deletecategorie(request , pk) :
   return render(request , 'app1/deletecategorie.html' , context)
 
 
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['client'])
+def reservationclient(request,pk) : 
+    reservations =Client_voyage.objects.filter(fk_client=pk)
+    context = {'reservations':reservations}
+    return render(request,"app1/reservationclient.html" , context)
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['client'])
+def reserve(request,pk) : 
+    voyageid = pk
+    voyage = Voyage.objects.get(id=pk)
+    userid = request.user.id 
+    client = Client.objects.get(fk_user=userid)
+    client_id = client.id
+    if request.method == 'POST' : 
+        # print('data : ',request.POST)
+        customer = stripe.Customer.create(
+            email = client.fk_user.email,
+            name = client.fk_user.username,
+            source=request.POST['stripeToken']
+        )
+
+        charge = stripe.Charge.create(
+            customer = customer,
+            amount = voyage.prix*100, #stripe kayst3ml cent so khask dreb f 100
+            currency = 'mad',
+            description = voyage.description
+        )
+
+        reservation = Client_voyage.objects.create(
+                fk_client_id=client_id,
+                fk_voyage=voyage,
+                date_reservation=date.today(),
+                amountPaid=voyage.prix,
+                paymentStatus=True  # Set to True since the payment was successful
+            )
+
+        voyage.nbr_places -= 1
+        voyage.save()
+
+        
+        context = {'prix' : voyage.prix}
+        return render(request,"app1/succes.html",context)
+
+
+    context = {'voyageid' : voyageid}
+    return render(request,"app1/reserve.html" , context)
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def hotels(request) : 
+    hotels = Hotel.objects.all()
+    context = {'hotels':hotels}
+    return render(request,"app1/hotels.html" , context)
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def addhotel(request):
+    if request.method == 'POST':
+        form = hotelForm(request.POST) 
+        if form.is_valid():
+            form.save()
+            print("hotel tzad")
+            return redirect('hotels')  
+        else : 
+            print("form addhotel fiha mochkil ")
+            #return redirect('addvoyage')
+
+    else:
+        # If the request method is GET, render the form
+        form = hotelForm()
+
+    context = {'form': form}
+    return render(request, 'app1/addhotel.html', context)
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def updatehotel(request , pk):
+  hotel = Hotel.objects.get(id=pk)
+  form = hotelForm(instance=hotel)
+  if request.method == 'POST' : 
+      form = hotelForm(request.POST ,instance=hotel)
+      if form.is_valid :
+        form.save()
+        return redirect('hotels')
+  context={'form' : form}
+  return render(request, "app1/addhotel.html",context)
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def deletehotel(request , pk) : 
+  item = Hotel.objects.get(id=pk)
+  if request.method == "POST" :
+    item.delete()
+    return redirect('hotels')
+
+  context={'item':item }
+  return render(request , 'app1/deletehotel.html' , context)
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def vols(request) : 
+    vols = Vol.objects.all()
+    context = {'vols':vols}
+    return render(request,"app1/vols.html" , context)
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def addvol(request):
+    if request.method == 'POST':
+        form = volForm(request.POST) 
+        if form.is_valid():
+            form.save()
+            print("vol tzad")
+            return redirect('vols')  
+        else : 
+            print("form addvol fiha mochkil ")
+            #return redirect('addvoyage')
+
+    else:
+        # If the request method is GET, render the form
+        form = volForm()
+
+    context = {'form': form}
+    return render(request, 'app1/addvol.html', context)
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def updatevol(request , pk):
+  vol = Vol.objects.get(id=pk)
+  form = volForm(instance=vol)
+  if request.method == 'POST' : 
+      form = volForm(request.POST ,instance=vol)
+      if form.is_valid :
+        form.save()
+        return redirect('vols')
+  context={'form' : form}
+  return render(request, "app1/addvol.html",context)
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def deletevol(request , pk) : 
+  item = Vol.objects.get(id=pk)
+  if request.method == "POST" :
+    item.delete()
+    return redirect('vols')
+
+  context={'item':item }
+  return render(request , 'app1/deletevol.html' , context)

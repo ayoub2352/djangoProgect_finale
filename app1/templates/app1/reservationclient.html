@@ -1,0 +1,26 @@
+<a class="btn btn-warning" href="{% url 'client' %}"> &#8592; Back to Profile</a>
+
+<hr>
+<h1>liste des reservation</h1>
+<div class="card card-body">
+      
+  <table class="table table-sm">
+    <tr>
+      <th>id</th>
+      <th>client</th>
+      <th>voyage</th>
+      <th>amountPaid</th>
+      <th>paymentStatus</th>
+    </tr>
+    {%for reservation in reservations%}
+      <tr>
+        <td>{{reservation.id}}</td>
+        <td>{{reservation.fk_client}}</td>
+        <td>{{reservation.fk_voyage}}</td>
+        <td>{{reservation.amountPaid}}</td>
+        <td>{{reservation.paymentStatus}}</td>
+       
+      </tr>
+      {%endfor%}
+  </table>
+</div>

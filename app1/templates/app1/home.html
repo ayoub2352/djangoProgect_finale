@@ -17,6 +17,7 @@
                         <li><strong>Price:</strong> ${{ voyage.prix }}</li>
                         <li><strong>Available Places:</strong> {{ voyage.nbr_places }}</li>
                         <li><strong>categorie:</strong> {{ voyage.categorie }}</li>
+                        <li><strong>VOL:</strong> {{ voyage.vol }}</li>
                     </ul>
                     {% if voyage.image_voyage %}
                         <img src="{{ voyage.image_voyage.url }}" alt="{{ voyage.titre }} Image" class="img-fluid">

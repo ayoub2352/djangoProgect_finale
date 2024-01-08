@@ -18,5 +18,15 @@ urlpatterns = [
     path('addcategorie/', views.addcategorie , name='addcategorie'),
     path('updatecategorie/<str:pk>/', views.updatecategorie, name='updatecategorie'),
     path('deletecategorie/<str:pk>/', views.deletecategorie, name='deletecategorie'),
+    path('reservationclient/<str:pk>/', views.reservationclient, name='reservationclient'),
+    path('reserve/<str:pk>/', views.reserve, name='reserve'),
+    path('hotels/', views.hotels , name='hotels'),
+    path('addhotel/', views.addhotel , name='addhotel'),
+    path('updatehotel/<str:pk>/', views.updatehotel, name='updatehotel'),
+    path('deletehotel/<str:pk>/', views.deletehotel, name='deletehotel'),
+    path('vols/', views.vols , name='vols'),
+    path('addvol/', views.addvol , name='addvol'),
+    path('updatevol/<str:pk>/', views.updatevol, name='updatevol'),
+    path('deletevol/<str:pk>/', views.deletevol, name='deletevol'),
 ]
 
