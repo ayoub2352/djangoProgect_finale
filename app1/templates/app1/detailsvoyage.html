@@ -1,0 +1,82 @@
+{% extends 'app1/main.html' %}
+{% load static %}
+
+{% block content %}
+  <style>
+    .card {
+      border-radius: 20px;
+      background-color: rgb(181, 236, 204);
+      box-shadow: 10px 10px 5px #888888;
+    }
+
+ 
+
+    .card-img-top {
+      border-radius: 20px;
+      padding: 10px;
+    }
+
+    .card-text{
+      font-size: 15px;
+      color: black;
+    }
+
+    .field-value {
+      font-weight: bold;
+      color: black; /* Adjust the color as needed */
+      /* Add more styling as needed */
+    }
+  </style>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1 class="text-center">{{ voyage.titre }}</h1>
+    </div>
+
+    <!-- Voyage Details Card -->
+    <div class="col-md-4">
+      <div class="card voyage-card">
+        <img class="card-img-top" src="{{ voyage.image_voyage.url }}" alt="{{ voyage.titre }} Image">
+        <div class="card-body">
+          <p class="card-text">{{ voyage.description }}</p>
+          <p class="card-text"><span class="field-value">Date Depart:</span> {{ voyage.date_depart }}</p>
+          <p class="card-text"><span class="field-value">Date Arrivee:</span> {{ voyage.date_arrivee }}</p>
+          <p class="card-text"><span class="field-value">Prix:</span> ${{ voyage.prix }}</p>
+          <p class="card-text"><span class="field-value">Nombre de Places:</span> {{ voyage.nbr_places }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hotel Details Card -->
+    <div class="col-md-4">
+      <div class="card">
+        <img class="card-img-top" src="{{ voyage.hotel.hotel_image.url }}" alt="{{ voyage.hotel.nom }} Image">
+        <div class="card-body">
+          <p class="card-text"><span class="field-value">Nom:</span> {{ voyage.hotel.nom }}</p>
+          <p class="card-text"><span class="field-value">Nombre d'Étoiles:</span> {{ voyage.hotel.nbr_etoiles }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vol Information Card -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title">Vol Information</h2>
+          <p class="card-text"><span class="field-value">Titre:</span> {{ voyage.vol.titre }}</p>
+          <p class="card-text"><span class="field-value">Date Depart:</span> {{ voyage.vol.date_depart }}</p>
+          <p class="card-text"><span class="field-value">Date Arrive:</span> {{ voyage.vol.date_arrive }}</p>
+          <p class="card-text"><span class="field-value">Compagnie:</span> {{ voyage.vol.compagnie }}</p>
+          <p class="card-text"><span class="field-value">Classe:</span> {{ voyage.vol.classe }}</p>
+          <p class="card-text"><span class="field-value">Escale:</span> {{ voyage.vol.escale }}</p>
+          <p class="card-text"><span class="field-value">Ville Arrive:</span> {{ voyage.vol.ville_arrive }}</p>
+          <p class="card-text"><span class="field-value">Ville Depart:</span> {{ voyage.vol.ville_depart }}</p>
+          <p class="card-text"><span class="field-value">Nombre d'Heures:</span> {{ voyage.vol.nbr_heure }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

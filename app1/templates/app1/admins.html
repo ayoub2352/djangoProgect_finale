@@ -1,0 +1,30 @@
+{% extends 'app1/mainAdmin.html' %}
+
+{% block content %}
+<div class="container">
+<h1 class="text-center text-white bg-success p-2" style="border-radius: 7px;">Liste des Administrateurs</h1>
+    <div class="card card-body">
+    <div class="d-flex justify-content-center mb-3">
+      <a class="btn btn-outline-success" href="{% url 'registerAdmin' %}">Add Admin</a>
+    </div>
+          <table class="table table-sm">
+ 
+                <tr>
+                  <th>id</th>
+                  <th>username</th>
+                  <th>email</th>
+                  <th>sexe</th>
+                </tr>
+      
+            {%for admin in admins%}
+              <tr>
+                <td>{{admin.id}}</td>
+                <td>{{admin.fk_user.username}}</td>
+                <td>{{admin.fk_user.email}}</td>
+                <td>{{admin.sexe}}</td>
+              </tr>
+              {%endfor%}
+          </table>
+    </div>
+</div>
+{% endblock content %}

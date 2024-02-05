@@ -1,29 +1,188 @@
 {% extends 'app1/main.html' %}
-
+{% load static %}
 {% block content %}
 
-    <div class="container">
-        <h1 class="text-center">List of Voyages</h1>
-        <hr>
 
-        {% for voyage in voyages %}
-            <div class="card mb-4">
-                <div class="card-body">
-                    <h2 class="card-title">{{ voyage.titre }}</h2>
-                    <p class="card-text">{{ voyage.description }}</p>
-                    <ul class="list-unstyled">
-                        <li><strong>Departure Date:</strong> {{ voyage.date_depart }}</li>
-                        <li><strong>Arrival Date:</strong> {{ voyage.date_arrivee }}</li>
-                        <li><strong>Price:</strong> ${{ voyage.prix }}</li>
-                        <li><strong>Available Places:</strong> {{ voyage.nbr_places }}</li>
-                        <li><strong>categorie:</strong> {{ voyage.categorie }}</li>
-                        <li><strong>VOL:</strong> {{ voyage.vol }}</li>
-                    </ul>
-                    {% if voyage.image_voyage %}
-                        <img src="{{ voyage.image_voyage.url }}" alt="{{ voyage.titre }} Image" class="img-fluid">
-                    {% endif %}
+<!-- 🔥🔥 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 section1-->
+
+<section class="ftco-section ftco-destination" >
+    <div class="container">
+        <div class="row justify-content-start mb-5 pb-3">
+      <div class="col-md-7 heading-section ftco-animate">
+          <span class="subheading">Featured</span>
+        <h2 class="mb-4"><strong>Featured</strong> Destination</h2>
+      </div>
+    </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="destination-slider owl-carousel ftco-animate ">
+
+                    {%for categorie in categories%}
+                    <div class="item">
+                        <div class="destination">
+                            <a href="{% url 'categorievoyage' categorie.nom %}" class="img d-flex justify-content-center align-items-center" style="background-image: url('{{ categorie.categorie_image.url }}');">
+                                <div class="icon d-flex justify-content-center align-items-center">
+                                    <span class="icon-search2"></span>
+                                </div>
+                            </a>
+                            <div class="text p-3">
+                                <h3><a href="{% url 'categorievoyage' categorie.nom %}">{{categorie.nom}}</a></h3>
+                                <span class="listing">{{categorie.description}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}        
+                   
+                   
+                   
                 </div>
             </div>
-        {% endfor %}
+        </div>
     </div>
+</section>
+
+
+
+<!-- 🔥🔥 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 section2-->
+
+
+<section class="ftco-section bg-light">
+    <div class="container">
+            <div class="row justify-content-start mb-5 pb-3">
+                <div class="col-md-7 heading-section ftco-animate">
+                    <span class="subheading">Special Offers</span>
+                    <h2 class="mb-4"><strong>Top</strong> Tour Packages</h2>
+                </div>
+            </div>    		
+    </div>
+
+    <div class="container-fluid">
+        <div class="row">
+
+            {%for voyage in voyages%}
+            <div class="col-sm col-md-6 col-lg ftco-animate">
+                <div class="destination">
+                    <a href="{% url 'detailsvoyage' voyage.id %}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('{{ voyage.image_voyage.url }}');">
+                        <div class="icon d-flex justify-content-center align-items-center">
+                            <span class="icon-search2"></span>
+                        </div>
+                    </a>
+                    <div class="text p-3">
+                        <div class="d-flex">
+                            <div class="one">
+                                <h3><a href="#">{{voyage.titre}}</a></h3>
+                            </div>
+                            <div class="two">
+                                <span class="price">${{voyage.prix}}</span>
+                            </div>
+                        </div>
+                        <p>{{voyage.description}}</p>
+                        <p class="days"><span>From  {{ voyage.date_depart }} To {{ voyage.date_arrivee }} <span></p>
+                        <hr>
+                        <p class="bottom-area d-flex">
+                            <span><i class="icon-map-o"></i> {{voyage.categorie}}</span> 
+                            <span class="ml-auto"><a href="{% url 'detailsvoyage' voyage.id %}">Discover</a></span>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+            {%endfor%}
+            
+            
+            
+            
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
+
+
+<!-- 🔥🔥 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥 section3-->
+
+
+
+
+
+
+<section class="ftco-section testimony-section bg-light">
+    <div class="container">
+      <div class="row justify-content-start">
+        <div class="col-md-5 heading-section ftco-animate">
+            <span class="subheading">Best Directory Website</span>
+          <h2 class="mb-4 pb-3"><strong>Why</strong> Choose Us?</h2>
+          <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+          <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic life.</p>
+          <p><a href="#" class="btn btn-primary btn-outline-primary mt-4 px-4 py-3">Read more</a></p>
+        </div>
+                  <div class="col-md-1"></div>
+        <div class="col-md-6 heading-section ftco-animate">
+            <span class="subheading">Testimony</span>
+          <h2 class="mb-4 pb-3"><strong>Our</strong> Guests Says</h2>
+            <div class="row ftco-animate">
+                <div class="col-md-12">
+                  <div class="carousel-testimony owl-carousel">
+                    <div class="item">
+                      <div class="testimony-wrap d-flex">
+                        <div class="user-img mb-5" style="background-image: url(images/person_1.jpg)">
+                          <span class="quote d-flex align-items-center justify-content-center">
+                            <i class="icon-quote-left"></i>
+                          </span>
+                        </div>
+                        <div class="text ml-md-4">
+                          <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                          <p class="name">Dennis Green</p>
+                          <span class="position">Guest from italy</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="testimony-wrap d-flex">
+                        <div class="user-img mb-5" style="background-image: url(images/person_2.jpg)">
+                          <span class="quote d-flex align-items-center justify-content-center">
+                            <i class="icon-quote-left"></i>
+                          </span>
+                        </div>
+                        <div class="text ml-md-4">
+                          <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                          <p class="name">Dennis Green</p>
+                          <span class="position">Guest from London</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item">
+                      <div class="testimony-wrap d-flex">
+                        <div class="user-img mb-5" style="background-image: url(images/person_3.jpg)">
+                          <span class="quote d-flex align-items-center justify-content-center">
+                            <i class="icon-quote-left"></i>
+                          </span>
+                        </div>
+                        <div class="text ml-md-4">
+                          <p class="mb-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+                          <p class="name">Dennis Green</p>
+                          <span class="position">Guest from Philippines</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+
+
+
+
+
 {% endblock content %}

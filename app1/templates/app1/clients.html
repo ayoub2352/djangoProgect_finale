@@ -1,0 +1,30 @@
+{% extends 'app1/mainAdmin.html' %}
+
+{% block content %}
+<div class="container">
+<h1 class="text-center text-white bg-success p-2" style="border-radius: 7px;">Liste des Clients</h1>
+    <div class="card card-body">
+   
+          <table class="table table-sm">
+ 
+                <tr>
+                  <th>id</th>
+                  <th>username</th>
+                  <th>email</th>
+                  <th>sexe</th>
+                  <th>envoyer notification</th>
+                </tr>
+      
+            {%for client in clients %}
+              <tr>
+                <td>{{client.id}}</td>
+                <td>{{client.fk_user.username}}</td>
+                <td>{{client.fk_user.email}}</td>
+                <td>{{client.sexe}}</td>
+                <td><a class="btn btn-outline-warning" href="{% url 'sendnotification' client.id %}">send</a></td>
+              </tr>
+              {%endfor%}
+          </table>
+    </div>
+</div>
+{% endblock content %}

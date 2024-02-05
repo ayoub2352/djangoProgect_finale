@@ -1,33 +1,177 @@
 {% load static %}
-<style>
-  .hello-msg{
-    font-size: 18px;
-    color: #fff;
-    margin-right: 20px;
-  }
-</style>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <!-- <img src="{% static 'images/download.jpeg' %}" alt="" style="width: 5%;"> -->
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="{% url 'home'  %}">home </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="{% url 'test2'  %}">test page</a>
-      </li>
-    </ul>
+
+ <style>
+
+
+/* General form styling */
+
+  /* General form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  background-color: rgb(0, 0, 0, 0.6);
+  border-radius: 5px;
+  width: 100%;
+}
+
+/* Style the labels */
+form label {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: rgb(109, 93, 74);
+}
+
+/* Style the input fields */
+form input, form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+/* Style the submit button */
+.search-submit {
+  width: 100%;
+  padding: 10px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.search-submit:hover {
+  background-color: #0056b3;
+}
+
+ </style>
+
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">dirEngine.</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="oi oi-menu"></span> Menu
+    </button>
+
+    <div class="collapse navbar-collapse" id="ftco-nav">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active"><a href="{% url 'home'  %}" class="nav-link">Home</a></li>
+        <li class="nav-item cta"><a href="{% url 'login' %}" class="nav-link"><span>Login</span></a></li>
+      </ul>
+    </div>
   </div>
-  <span ><a class="hello-msg" href="{% url 'login' %}">Login</a></span>
 </nav>
+<div class="hero-wrap js-fullheight"  style="background-image: url('{% static "images/bg_1.jpg" %}');"">
+
+  <div class="overlay"></div>
+  <div class="container">
+    <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
+      <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
+        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
+        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p>
+        {% if request.path == '/' %}
+        <div >
+          <form action="{% url 'home' %}" method="GET" class="d-block d-flex">
+            {% csrf_token %}
+        
+            <div class="fields d-block d-flex">
+              <div >
+                <label for="{{ myfilter.form.titre.id_for_label }}">destination:</label>
+                {{ myfilter.form.titre }}
+              </div>
+
+              <div >
+                <label for="{{ myfilter.form.ville_depart.id_for_label }}">Ville Depart:</label>
+                {{ myfilter.form.ville_depart }}
+              </div>
+        
+              <div >
+                <label for="{{ myfilter.form.ville_arrive.id_for_label }}">Ville Arrive:</label>
+                {{ myfilter.form.ville_arrive }}
+              </div>
+              
+              <div >
+                <label for="{{ myfilter.form.date_depart.id_for_label }}">Date Depart:</label>
+                {{ myfilter.form.date_depart }}
+              </div>
+        
+              <div >
+                <label for="{{ myfilter.form.date_arrivee.id_for_label }}">Date Arrivee:</label>
+                {{ myfilter.form.date_arrivee }}
+              </div>
+        
+              <div >
+                <label for="{{ myfilter.form.classe_vol.id_for_label }}">Classe Vol:</label>
+                {{ myfilter.form.classe_vol }}
+              </div>
+        
+              <div >
+                <label for="{{ myfilter.form.nombre_etoiles_hotel.id_for_label }}">Nombre Etoiles Hotel:</label>
+                {{ myfilter.form.nombre_etoiles_hotel }}
+              </div>
+        
+             
+            </div>
+     
+            <input type="submit" class="search-submit btn btn-primary" value="Search">  
+          </form>
+        </div>
+        {% endif %}   
+        
+        
+        <!-- <p>Or browse the highlights</p>
+        <p class="browse d-md-flex">
+          <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-fork"></i>Restaurant</a></span>
+          <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-hotel"></i>Hotel</a></span> 
+          <span class="d-flex justify-content-md-center align-items-md-center"><a href="#"><i class="flaticon-meeting-point"></i>Places</a></span> 
+          <span class="d-flex justify-content-md-center align-items-md-	center"><a href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
+        </p> -->
+      </div>
+    </div>
+  </div>
+</div>
+<section class="ftco-section services-section bg-light">
+  <div class="container">
+    <div class="row d-flex">
+      <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services d-block text-center">
+          <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-guarantee"></span></div></div>
+          <div class="media-body p-2 mt-2">
+            <h3 class="heading mb-3">Best Price Guarantee</h3>
+            <p>A small river named Duden flows by their place and supplies.</p>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services d-block text-center">
+          <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-like"></span></div></div>
+          <div class="media-body p-2 mt-2">
+            <h3 class="heading mb-3">Travellers Love Us</h3>
+            <p>A small river named Duden flows by their place and supplies.</p>
+          </div>
+        </div>    
+      </div>
+      <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services d-block text-center">
+          <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-detective"></span></div></div>
+          <div class="media-body p-2 mt-2">
+            <h3 class="heading mb-3">Best Travel Agent</h3>
+            <p>A small river named Duden flows by their place and supplies.</p>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services d-block text-center">
+          <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-support"></span></div></div>
+          <div class="media-body p-2 mt-2">
+            <h3 class="heading mb-3">Our Dedicated Support</h3>
+            <p>A small river named Duden flows by their place and supplies.</p>
+          </div>
+        </div>      
+      </div>
+    </div>
+  </div>
+</section>

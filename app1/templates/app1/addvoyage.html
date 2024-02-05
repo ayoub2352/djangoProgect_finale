@@ -1,16 +1,63 @@
-<a class="btn btn-warning" href="{% url 'voyages' %}"> &#8592; Back to Profile</a>
-<hr>
-<div class="col-md-9">
-  <div class="card card-body">
-    
-    <form method="POST" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{form.as_p}}
-  
-    <input class="btn btn-primary" type="submit" name="Update Information">
-    </form>
+{% extends 'app1/mainAdmin.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="col-md-12 mx-auto">
+    <div class="card card-body">
+      
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Titre:</label>
+          <div class="col-sm-4">{{form.titre}}</div>
+
+          <label for="id_prix" class="col-sm-2 col-form-label">Prix:</label>
+          <div class="col-sm-4">{{form.prix}}</div>
+        </div>
+
+        <div class="form-group row">
+          <label for="id_date_depart" class="col-sm-2 col-form-label">Date de depart:</label>
+          <div class="col-sm-4">{{form.date_depart}}</div>
+
+          <label for="id_date_arrivee" class="col-sm-2 col-form-label">Date d'arrive:</label>
+          <div class="col-sm-4">{{form.date_arrivee}}</div>
+        </div>
+
+        <div class="form-group row">
+          <label for="id_nbr_places" class="col-sm-2 col-form-label">Number of Places:</label>
+          <div class="col-sm-4">{{form.nbr_places}}</div>
+
+          <label for="id_image_voyage" class="col-sm-2 col-form-label">Image:</label>
+          <div class="col-sm-4">{{form.image_voyage}}</div>
+        </div>
+
+        <div class="form-group row">
+          <label for="id_categorie" class="col-sm-2 col-form-label">Category:</label>
+          <div class="col-sm-4">{{form.categorie}}</div>
+
+          <label for="id_vol" class="col-sm-2 col-form-label">Vol:</label>
+          <div class="col-sm-4">{{form.vol}}</div>
+        </div>
+
+        <div class="form-group row">
+          <label for="id_hotel" class="col-sm-2 col-form-label">Hotel:</label>
+          <div class="col-sm-4">{{form.hotel}}</div>
+
+          <label for="id_description" class="col-sm-2 col-form-label">Description:</label>
+          <div class="col-sm-4">{{form.description}}</div>
+        </div>
+
+        <div class="d-flex justify-content-center mb-3">
+          <input class="btn btn-primary" type="submit" name="add">
+        </div>
+        
+      </form>
+    </div>
+
+    {% if form.errors %}
+      <p class="text-danger">Form has errors: {{ form.errors }}</p>
+    {% endif %}
   </div>
 </div>
-{% if form.errors %}
-    <p>Form has errors: {{ form.errors }}</p>
-{% endif %}
+{% endblock content %}

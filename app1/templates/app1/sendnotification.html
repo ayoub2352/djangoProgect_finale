@@ -1,0 +1,21 @@
+{% extends 'app1/mainAdmin.html' %} {% block content %}
+<div class="container">
+  <div class="col-md-12 mx-auto">
+    <div class="card card-body">
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+      {{form.as_p}}
+      <div class="d-flex justify-content-center mb-3">
+        <input class="btn btn-primary" type="submit" name="send">
+      </div>
+      
+      </form>
+    </div>
+
+    {% if form.errors %}
+    <p class="text-danger">Form has errors: {{ form.errors }}</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock content %}

@@ -1,16 +1,57 @@
-<a class="btn btn-warning" href="{% url 'vols' %}"> &#8592; Back to Profile</a>
-<hr>
-<div class="col-md-9">
-  <div class="card card-body">
-    
-    <form method="POST" action="" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{form.as_p}}
-  
-    <input class="btn btn-primary" type="submit" name="Update Information">
-    </form>
+{% extends 'app1/mainAdmin.html' %}
+
+{% block content %}
+<div class="container">
+  <div class="col-md-12 mx-auto">
+    <div class="card card-body">
+      
+      <form method="POST" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Titre:</label>
+          <div class="col-sm-4">{{form.titre}}</div>
+
+          <label for="id_prix" class="col-sm-2 col-form-label">Compagnie:</label>
+          <div class="col-sm-4">{{form.compagnie}}</div>
+        </div>
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Date de depart:</label>
+          <div class="col-sm-4">{{form.date_depart}}</div>
+
+          <label for="id_prix" class="col-sm-2 col-form-label">Date d'arrive:</label>
+          <div class="col-sm-4">{{form.date_arrive}}</div>
+        </div>
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Classe:</label>
+          <div class="col-sm-4">{{form.classe}}</div>
+
+          <label for="id_prix" class="col-sm-2 col-form-label">Escale:</label>
+          <div class="col-sm-4">{{form.escale}}</div>
+        </div>
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Ville de depart:</label>
+          <div class="col-sm-4">{{form.ville_depart}}</div>
+
+          <label for="id_prix" class="col-sm-2 col-form-label">Ville d'arrive:</label>
+          <div class="col-sm-4">{{form.ville_arrive}}</div>
+        </div>
+        <div class="form-group row">
+          <label for="id_titre" class="col-sm-2 col-form-label">Nombre d'heures de vol:</label>
+          <div class="col-sm-4">{{form.nbr_heure}}</div>
+        </div>
+
+
+        <div class="d-flex justify-content-center mb-3">
+          <input class="btn btn-primary" type="submit" name="add">
+        </div>
+        
+      </form>
+    </div>
+
+    {% if form.errors %}
+      <p class="text-danger">Form has errors: {{ form.errors }}</p>
+    {% endif %}
   </div>
 </div>
-{% if form.errors %}
-    <p>Form has errors: {{ form.errors }}</p>
-{% endif %}
+{% endblock content %}

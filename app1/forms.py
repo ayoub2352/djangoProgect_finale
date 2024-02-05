@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Client , Adminstrateur , Voyage , Categorie , Hotel , Vol
+from .models import Client , Adminstrateur , Voyage , Categorie , Hotel , Vol , Notification
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import Group
 from django.forms import ModelForm
@@ -108,4 +108,11 @@ class hotelForm(ModelForm) :
 class volForm(ModelForm) : 
   class Meta :
     model = Vol
+    fields = '__all__'
+
+
+
+class notificationForm(ModelForm) : 
+  class Meta :
+    model = Notification
     fields = '__all__'

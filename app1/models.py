@@ -26,6 +26,7 @@ class Client(models.Model):
 class Categorie(models.Model):
     nom = models.TextField(max_length=100)
     description = models.TextField(max_length=500, blank=True, null=True)
+    categorie_image = models.ImageField(default = "voyagepic.png",null=True , blank=True)
     def __str__(self) : 
      return self.nom
 
@@ -40,7 +41,7 @@ class Hotel(models.Model):
     ]
     nbr_etoiles = models.IntegerField(choices=NBR_ETOILE, null=False, blank=False)
     nbr_chambres = models.IntegerField(null=False, blank=False)
-
+    hotel_image = models.ImageField(default = "hotel.jpeg",null=True , blank=True)
     def __str__(self):
         return self.nom
 
@@ -97,5 +98,16 @@ class Adminstrateur(models.Model):
     
     def __str__(self) : 
      return self.fk_user.username
+
+
+
+class Notification(models.Model):
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    adminstrateur = models.ForeignKey(Adminstrateur, on_delete=models.CASCADE)
+    message = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.adminstrateur.fk_user.username} to {self.client.fk_user.username}: {self.message}"
 
 

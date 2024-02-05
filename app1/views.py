@@ -1,21 +1,26 @@
 from django.shortcuts import render , redirect
-from .forms import ClientRegistrationForm , AdminstrateurRegistrationForm , ClientSettingsForm , VoyageForm , categorieForm , hotelForm , volForm
+from .forms import ClientRegistrationForm , AdminstrateurRegistrationForm , ClientSettingsForm , VoyageForm , categorieForm , hotelForm , volForm , notificationForm
 from django.contrib.auth import authenticate , login , logout 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required 
 from .decorators import user_authenticated , allowed_users
 from django.http import HttpResponse
-from .models import Voyage , Categorie , Client_voyage ,Hotel , Vol , Client
+from .models import Voyage , Categorie , Client_voyage ,Hotel , Vol , Client , Adminstrateur , Client
 import stripe
 from datetime import date
+from .filters import VoyageFilter
 
 
 stripe.api_key = "sk_test_51MxJ30AhdCO5CiRyKgfCeJhC1y2i1iXTiUBS9YpKaQYtSp5ZmMpJ2Y8yIRtQUMzmvJHZtCIt0xkYmBO7NslpAqkx00PZKLjYrT"
 
 # Create your views here.
 def home(request) : 
+    categories = Categorie.objects.all()
+    print(categories)
     voyages = Voyage.objects.all()
-    context = {'voyages': voyages}
+    myfilter = VoyageFilter(request.GET,queryset=voyages)
+    voyages=myfilter.qs
+    context = {'voyages': voyages,'myfilter':myfilter,'categories':categories}
     return render(request,"app1/home.html" , context)
 
 
@@ -168,7 +173,7 @@ def categories(request) :
 @allowed_users(allowed_roles=['admin'])
 def addcategorie(request):
     if request.method == 'POST':
-        form = categorieForm(request.POST) 
+        form = categorieForm(request.POST, request.FILES) 
         if form.is_valid():
             form.save()
             print("categorie tzadt")
@@ -191,7 +196,7 @@ def updatecategorie(request , pk):
   categorie = Categorie.objects.get(id=pk)
   form = categorieForm(instance=categorie)
   if request.method == 'POST' : 
-      form = categorieForm(request.POST ,instance=categorie)
+      form = categorieForm(request.POST ,request.FILES,instance=categorie)
       if form.is_valid :
         form.save()
         return redirect('categories')
@@ -274,7 +279,7 @@ def hotels(request) :
 @allowed_users(allowed_roles=['admin'])
 def addhotel(request):
     if request.method == 'POST':
-        form = hotelForm(request.POST) 
+        form = hotelForm(request.POST, request.FILES) 
         if form.is_valid():
             form.save()
             print("hotel tzad")
@@ -297,7 +302,7 @@ def updatehotel(request , pk):
   hotel = Hotel.objects.get(id=pk)
   form = hotelForm(instance=hotel)
   if request.method == 'POST' : 
-      form = hotelForm(request.POST ,instance=hotel)
+      form = hotelForm(request.POST ,request.FILES,instance=hotel)
       if form.is_valid :
         form.save()
         return redirect('hotels')
@@ -372,3 +377,63 @@ def deletevol(request , pk) :
 
   context={'item':item }
   return render(request , 'app1/deletevol.html' , context)
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def admins(request) : 
+    admins = Adminstrateur.objects.all()
+    context = {'admins':admins}
+    return render(request,"app1/admins.html" , context)
+
+
+
+def detailsvoyage(request,pk) : 
+
+    voyage = Voyage.objects.get(id=pk)
+    context = {'voyage':voyage}
+
+    return render(request,"app1/detailsvoyage.html",context)
+
+
+def categorievoyage(request,pk) : 
+
+    voyages = Voyage.objects.filter(categorie__nom=pk)
+    context = {'voyages':voyages}
+    return render(request,"app1/categorievoyage.html",context)
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def clients(request) : 
+    clients = Client.objects.all()
+    print(clients)
+    context = {'clients':clients}
+    return render(request,"app1/clients.html" , context)
+
+
+
+
+
+@login_required(login_url='home') 
+@allowed_users(allowed_roles=['admin'])
+def sendnotification(request, pk):
+
+    if request.method == 'POST':
+        form = notificationForm(request.POST) 
+        if form.is_valid():
+            form.save()
+            print("message tseft tzad")
+            return redirect('clients')  
+        else : 
+            print("form addhotel fiha mochkil ")
+            #return redirect('addvoyage')
+
+    else:
+        # If the request method is GET, render the form
+        form = notificationForm()
+
+    context = {'form': form}
+    return render(request, 'app1/sendnotification.html', context)
