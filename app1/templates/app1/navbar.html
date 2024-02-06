@@ -1,22 +1,6 @@
 {% load static %}
 
  <style>
-
-
-/* General form styling */
-
-  /* General form styling */
-form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-  padding: 20px;
-  background-color: rgb(0, 0, 0, 0.6);
-  border-radius: 5px;
-  width: 100%;
-}
-
 /* Style the labels */
 form label {
   font-weight: bold;
@@ -51,7 +35,7 @@ form input, form select {
 
 <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
   <div class="container">
-    <a class="navbar-brand" href="index.html">dirEngine.</a>
+    <a class="navbar-brand" href="{% url 'home'  %}">Reservo.</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="oi oi-menu"></span> Menu
     </button>
@@ -59,20 +43,25 @@ form input, form select {
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item active"><a href="{% url 'home'  %}" class="nav-link">Home</a></li>
-        <li class="nav-item cta"><a href="{% url 'login' %}" class="nav-link"><span>Login</span></a></li>
+        {% if not user.is_authenticated %}
+            <li class="nav-item cta"><a href="{% url 'login' %}" class="nav-link"><span>Se connecter</span></a></li>
+        {% else %}
+            <li class="nav-item active"><a href="{% url 'client'  %}" class="nav-link">Profile</a></li>
+            <li class="nav-item cta"><a href="{% url 'logout' %}" class="nav-link"><span>Se déconnecter</span></a></li>
+        {% endif %}
       </ul>
     </div>
   </div>
 </nav>
-<div class="hero-wrap js-fullheight"  style="background-image: url('{% static "images/bg_1.jpg" %}');"">
-
+<div class="hero-wrap js-fullheight" style="background-image: linear-gradient(90deg, rgba(0, 0, 0, 0.2), rgba(0,0,0,0.01)), url('{% static "images/bg_1.jpg" %}');">
   <div class="overlay"></div>
-  <div class="container">
+  <div class="container" style="padding-top: 5%;">
     <div class="row no-gutters slider-text js-fullheight align-items-center justify-content-start" data-scrollax-parent="true">
       <div class="col-md-9 ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
-        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explore <br></strong> your amazing city</h1>
-        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Find great places to stay, eat, shop, or visit from local experts</p>
-        {% if request.path == '/' %}
+        <h1 class="mb-4" data-scrollax="properties: { translateY: '30%', opacity: 1.6 }"><strong>Explorer <br></strong> Votre ville incroyable</h1>
+        <p data-scrollax="properties: { translateY: '30%', opacity: 1.6 }">Découvrez de superbes endroits où séjourner, manger, faire du shopping ou visiter, recommandés par des experts locaux.</p>
+        
+        {% comment %} {% if request.path == '/' %}
         <div >
           <form action="{% url 'home' %}" method="GET" class="d-block d-flex">
             {% csrf_token %}
@@ -119,7 +108,7 @@ form input, form select {
             <input type="submit" class="search-submit btn btn-primary" value="Search">  
           </form>
         </div>
-        {% endif %}   
+        {% endif %}    {% endcomment %}
         
         
         <!-- <p>Or browse the highlights</p>
@@ -130,12 +119,71 @@ form input, form select {
           <span class="d-flex justify-content-md-center align-items-md-	center"><a href="#"><i class="flaticon-shopping-bag"></i>Shopping</a></span>
         </p> -->
       </div>
+      {% if request.path == '/' %}
+        <div class="container-fluid" style="z-index: 2;" >
+          <form action="{% url 'test' %}" method="GET" class="d-block d-flex">
+            {% csrf_token %}
+        
+            <div class="fields d-block d-flex flex-wrap" style="row-gap: 5px;">
+              {% comment %} <div >
+                <label for="{{ myfilter.form.titre.id_for_label }}">destination:</label>
+                {{ myfilter.form.titre }}
+              </div> {% endcomment %}
+
+              <div class="col-md-6" >
+                {% comment %} <label for="{{ myfilter.form.ville_depart.id_for_label }}">Ville Depart:</label> {% endcomment %}
+                {{ myfilter.form.titre }}
+              </div>
+        
+              <div class="col-md-6">
+                {% comment %} <label for="{{ myfilter.form.date_depart.id_for_label }}">Date Depart:</label> {% endcomment %}
+                {{ myfilter.form.date_depart }}
+              </div>
+        
+              <div class="col-md-4">
+                {% comment %} <label for="{{ myfilter.form.date_arrivee.id_for_label }}">Date Arrivee:</label> {% endcomment %}
+                {{ myfilter.form.date_arrivee }}
+              </div>
+        
+              <div class="col-md-4">
+                {% comment %} <label for="{{ myfilter.form.classe_vol.id_for_label }}">Classe Vol:</label> {% endcomment %}
+                {{ myfilter.form.classe_vol }}
+              </div>
+        
+              <div class="col-md-4">
+                {% comment %} <label for="{{ myfilter.form.nombre_etoiles_hotel.id_for_label }}">Nombre Etoiles Hotel:</label> {% endcomment %}
+                {% comment %} {{ myfilter.form.nombre_etoiles_hotel }} {% endcomment %}
+                <select name="nombre_etoiles_hotel" class="form-control" id="id_nombre_etoiles_hotel">
+                  <option value="" selected="">Étoiles d'Hôtel</option>
+
+                  <option value="1">
+                    ⭐
+                    {% comment %} <span style="font-size: 1.2em; color: red;"><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i></span> {% endcomment %}
+                  </option>
+
+                  <option value="2">⭐⭐</option>
+
+                  <option value="3">⭐⭐⭐</option>
+
+                  <option value="4">⭐⭐⭐⭐</option>
+
+                  <option value="5">⭐⭐⭐⭐⭐</option>
+
+                </select>
+              </div>
+        
+              <input type="submit" class="search-submit btn btn-primary" style="border-radius: 0px; margin-left:" value="Search">  
+            </div>
+     
+          </form>
+        </div>
+        {% endif %} 
     </div>
   </div>
 </div>
 <section class="ftco-section services-section bg-light">
-  <div class="container">
-    <div class="row d-flex">
+  <div class="container"  style="margin-top: 0px;">
+    <div class="row d-flex ">
       <div class="col-md-3 d-flex align-self-stretch ftco-animate">
         <div class="media block-6 services d-block text-center">
           <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-guarantee"></span></div></div>

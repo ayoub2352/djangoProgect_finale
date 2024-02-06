@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Information</title>
+</head>
+<body>
+    <h1 style="background-color: red;">Invoice</h1>
+    <h1>Reservation ID: {{ res_id }}</h1>
+
+    <h2>Information about the client</h2>
+    <p>Client Name: {{ client.fk_user.username }}</p>
+    <p>Client Email: {{ client.fk_user.email }}</p>
+    <p>Client Gender: {{ client.get_sexe_display }}</p>  <!-- Display the verbose name of the gender field -->
+    <p>Client Telephone: {{ client.telephone }}</p>
+    <p>Client Address: {{ client.adresse }}</p>
+    <p>Client CIN: {{ client.CIN }}</p>
+    <p>Client Balance: {{ client.solde }}</p>
+    <!-- Add any other fields from the Client model as needed -->
+
+    <h2>Information about the voyage</h2>
+    <h3>Reservation Information for Voyage ID: {{ voyage.id }}</h3>
+    <p>Voyage Description: {{ voyage.description }}</p>
+    <p>Amount Paid: {{ voyage.prix }}</p>
+
+    <h2>Hotel Information</h2>
+    <p>Hotel Name: {{ hotel.nom }}</p>
+    <p>Hotel Stars: {{ hotel.get_nbr_etoiles_display }}</p>  <!-- Display the verbose name of the stars field -->
+    <p>Number of Rooms: {{ hotel.nbr_chambres }}</p>
+
+    <h2>Flight Information</h2>
+    <p>Flight Title: {{ vol.titre }}</p>
+    <p>Departure Date: {{ vol.date_depart }}</p>
+    <p>Arrival Date: {{ vol.date_arrive }}</p>
+    <p>Compagnie: {{ vol.compagnie }}</p>
+    <p>Class: {{ vol.get_classe_display }}</p>  <!-- Display the verbose name of the class field -->
+    <p>Escale: {{ vol.escale }}</p>
+    <p>Departure City: {{ vol.ville_depart }}</p>
+    <p>Arrival City: {{ vol.ville_arrive }}</p>
+    <p>Duration (hours): {{ vol.nbr_heure }}</p>
+
+</body>
+</html>

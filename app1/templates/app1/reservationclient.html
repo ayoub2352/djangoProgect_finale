@@ -11,6 +11,7 @@
       <th>voyage</th>
       <th>amountPaid</th>
       <th>paymentStatus</th>
+      <th>facture</th>
     </tr>
     {%for reservation in reservations%}
       <tr>
@@ -19,8 +20,9 @@
         <td>{{reservation.fk_voyage}}</td>
         <td>{{reservation.amountPaid}}</td>
         <td>{{reservation.paymentStatus}}</td>
+        <td><a href="{% url 'download_pdf' reservation.id %}" class="btn btn-primary">Download Reservation PDF</a></td>
        
       </tr>
       {%endfor%}
-  </table>
+  </table>
 </div>

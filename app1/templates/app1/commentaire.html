@@ -1,0 +1,20 @@
+<style>
+  .vf{
+    display: none;
+  }
+</style>
+<a class="btn btn-warning" href="{% url 'client' %}"> &#8592; Back to Profile</a>
+
+<form method="POST" action="">
+  {% csrf_token %}
+  <div class="form-group row client-field">
+ 
+    <div class="vf" >{{ form.client }}</div>
+
+    <label for="id_prix" class="col-sm-2 col-form-label">Votre commentaire:</label>
+    <div class="col-sm-4">{{ form.commentaire }}</div>
+  </div>
+  <div class="d-flex justify-content-center mb-3">
+    <input class="btn btn-primary" type="submit" name="add">
+  </div>
+</form>

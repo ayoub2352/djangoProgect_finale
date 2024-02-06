@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Client , Adminstrateur , Voyage , Categorie , Hotel , Vol , Notification
+from .models import Client , Adminstrateur , Voyage , Categorie , Hotel , Vol , Notification  , Promotion , Commentaire
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.contrib.auth.models import Group
 from django.forms import ModelForm
@@ -14,14 +14,13 @@ class ClientRegistrationForm(UserCreationForm):
 
     sexe = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect)
     telephone = forms.IntegerField(
-        validators=[MinValueValidator(10), MaxValueValidator(100)]
+        # validators=[MinValueValidator(7), MaxValueValidator(15)]
     )
     adresse = forms.CharField(max_length=100)
-    CIN = forms.CharField(max_length=8)
 
     class Meta:
         model = User
-        fields = ['username', 'email','password1', 'password2', 'sexe', 'telephone', 'adresse', 'CIN']
+        fields = ['username', 'email','password1', 'password2', 'sexe', 'telephone', 'adresse']
 
     def save(self, commit=True): #had method an3yto liha f register view
         user = super().save(commit=False)
@@ -36,7 +35,6 @@ class ClientRegistrationForm(UserCreationForm):
                 sexe=self.cleaned_data['sexe'],
                 telephone=self.cleaned_data['telephone'],
                 adresse=self.cleaned_data['adresse'],
-                CIN=self.cleaned_data['CIN'],
             )
         
         #hna kan associer user l group 'client'
@@ -116,3 +114,25 @@ class notificationForm(ModelForm) :
   class Meta :
     model = Notification
     fields = '__all__'
+
+    widgets = {
+                'client': forms.TextInput(attrs={'readonly': 'readonly'}),
+                'adminstrateur':forms.TextInput(attrs={'readonly': 'readonly'}),
+            }
+
+
+class promotionForm(ModelForm) : 
+  class Meta :
+    model = Promotion
+    fields = '__all__'
+
+
+
+class commentaireForm(ModelForm) : 
+  class Meta :
+    model = Commentaire
+    fields = '__all__'
+    widgets = {
+            'client': forms.TextInput(attrs={'readonly': 'readonly'}),
+        }
+

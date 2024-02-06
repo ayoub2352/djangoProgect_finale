@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import MinLengthValidator, MaxLengthValidator, MinValueValidator, MaxValueValidator
 
 # Create your models here.
 
@@ -11,14 +11,13 @@ class Client(models.Model):
         ('M','Male')
     ]
     sexe = models.CharField(choices=GENDER_CHOICES,max_length=1)
-    telephone = models.IntegerField(validators=[   #🔥🔥🔥🔥🔥🔥🔥hado khasna nbdlohom kaydiro machakil khes telephone ikon howa 10,3ad aykhdem
-        MaxValueValidator(10),
-        MinValueValidator(10)
-        ]
+    telephone = models.IntegerField(
+    #    validators=[  
+        # MinLengthValidator(9),
+        # MaxLengthValidator(15)
+        # ]
     )
     adresse = models.CharField(max_length=100)
-    CIN = models.CharField(max_length=8)
-    solde = models.IntegerField(default=0)
     client_image = models.ImageField(default = "profilepic.png",null=True , blank=True)
     def __str__(self) : 
      return self.fk_user.username
@@ -30,14 +29,24 @@ class Categorie(models.Model):
     def __str__(self) : 
      return self.nom
 
+class Promotion(models.Model):
+    titre = models.CharField(max_length=100)
+    description = models.TextField(max_length=500)
+    pourcentage_reduction = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
+
+
+    def _str_(self):
+        return self.titre
+
+
 class Hotel(models.Model):
     nom = models.TextField(max_length=100)
     NBR_ETOILE = [
-        (1, '1 Star'),
-        (2, '2 Stars'),
-        (3, '3 Stars'),
-        (4, '4 Stars'),
-        (5, '5 Stars'),
+        (1, '⭐'),
+        (2, '⭐⭐'),
+        (3, '⭐⭐⭐'),
+        (4, '⭐⭐⭐⭐'),
+        (5, '⭐⭐⭐⭐⭐'),
     ]
     nbr_etoiles = models.IntegerField(choices=NBR_ETOILE, null=False, blank=False)
     nbr_chambres = models.IntegerField(null=False, blank=False)
@@ -75,6 +84,7 @@ class Voyage(models.Model):
     nbr_places = models.IntegerField(null=False, blank=False)  #7ydt validators 7it daro liya mochkil
     image_voyage = models.ImageField(default = "voyagepic.png",null=True , blank=True)
     categorie = models.ForeignKey('Categorie', on_delete=models.CASCADE )
+    promotion = models.ForeignKey('Promotion', null=True,blank=True, on_delete=models.CASCADE)
     vol = models.ForeignKey('Vol',on_delete=models.CASCADE)
     hotel = models.ForeignKey('Hotel',on_delete=models.CASCADE)
     def __str__(self) : 
@@ -110,4 +120,10 @@ class Notification(models.Model):
     def __str__(self):
         return f"{self.adminstrateur.fk_user.username} to {self.client.fk_user.username}: {self.message}"
 
+class Commentaire(models.Model) : 
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    commentaire = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
 
+    def _str_(self):
+        return f"{self.client.fk_user.username}: {self.commentaire} at : {self.timestamp}"

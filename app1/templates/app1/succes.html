@@ -1,3 +1,7 @@
 <h1>congrats votre payement a bien passe {{prix }} dhs</h1>
 <hr>
+<h1>id reservation : {{res_id}}</h1>
+<h1>download facture</h1>
+<a href="{% url 'download_pdf' res_id%}" class="btn btn-primary">Download Reservation PDF</a>
+<hr>
 <a class="btn btn-warning" href="{% url 'client' %}"> &#8592; Back to Profile</a>

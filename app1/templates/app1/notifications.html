@@ -1,0 +1,26 @@
+<a class="btn btn-warning" href="{% url 'client' %}"> &#8592; Back to Profile</a>
+
+<hr>
+<h1>notifications</h1>
+<div class="card card-body">
+      
+  <table class="table table-sm">
+    <tr>
+      <th>admin</th>
+      <th>message</th>
+      <th>date</th>
+    </tr>
+    {%for notification in notifications%}
+      <tr>
+        {% if notification.adminstrateur.id == 2 %}
+        <td>system</td>
+        {% else %}
+           <td>{{ notification.adminstrateur.fk_user.username }}</td>
+       {% endif %}
+    
+        <td>{{notification.message}}</td>
+        <td>{{notification.timestamp}}</td>      
+      </tr>
+      {%endfor%}
+  </table>
+</div>

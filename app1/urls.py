@@ -1,7 +1,10 @@
 from django.urls import path
 from . import views
-from django.contrib.auth import views as auth_views
+# from django.contrib.auth import views as auth_views
+from .views import reserve,download_pdf
+
 urlpatterns = [
+    path('test/', views.test , name='test'),
     path('', views.home , name='home'),
     path('page2/', views.test2 , name='test2'),
     path('login/', views.loginPage , name='login'),
@@ -33,16 +36,25 @@ urlpatterns = [
     path('detailsvoyage/<str:pk>/', views.detailsvoyage, name='detailsvoyage'),
     path('categorievoyage/<str:pk>/', views.categorievoyage, name='categorievoyage'),
 
-    path('reset_password/',auth_views.PasswordResetView.as_view(),name="reset_password"),
-    path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(),name="password_reset_done"),
-    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name="password_reset_confirm"),
-    path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(),name="password_reset_complete"),
+    # path('reset_password/',auth_views.PasswordResetView.as_view(),name="reset_password"),
+    # path('reset_password_sent/',auth_views.PasswordResetDoneView.as_view(),name="password_reset_done"),
+    # path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(),name="password_reset_confirm"),
+    # path('reset_password_complete/',auth_views.PasswordResetCompleteView.as_view(),name="password_reset_complete"),
 
     path('clients/', views.clients , name='clients'),
-    path('sendnotification/<str:pk>',views.sendnotification,name='sendnotification')
+    path('sendnotification/<str:pk>',views.sendnotification,name='sendnotification'),
+
+    path('notifications/', views.notifications , name='notifications'),
+
+    path('promotions/', views.promotions , name='promotions'),
+    path('addpromotion/', views.addpromotion , name='addpromotion'),
+    path('updatepromotion/<str:pk>/', views.updatepromotion, name='updatepromotion'),
+    path('deletepromotion/<str:pk>/', views.deletepromotion, name='deletepromotion'),
 
 
+    
+    path('commentaire/', views.addcommentaire , name='commentaire'),
 
-
+    path('download_pdf/<int:pk>/', download_pdf, name='download_pdf'),
 ]
 

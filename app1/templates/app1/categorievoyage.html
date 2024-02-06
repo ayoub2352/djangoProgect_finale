@@ -5,7 +5,7 @@
   <div class="row">
 
       {%for voyage in voyages%}
-      <div class="col-sm col-md-6 col-lg ftco-animate">
+      <div class="col-sm col-md-6 col-lg ftco-animate" style="max-width: 350px; ">
           <div class="destination">
               <a href="{% url 'detailsvoyage' voyage.id %}" class="img img-2 d-flex justify-content-center align-items-center" style="background-image: url('{{ voyage.image_voyage.url }}');">
                   <div class="icon d-flex justify-content-center align-items-center">

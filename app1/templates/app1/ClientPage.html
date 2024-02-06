@@ -3,29 +3,7 @@
 <br>
 <span ><a class="hello-msg" href="{% url 'ClientSettings' %}">settings</a></span>
 <span ><a class="hello-msg" href="{% url 'reservationclient' request.user.client.id %}">RESERVATIONS FAITES</a></span>
+<span ><a class="hello-msg" href="{% url 'notifications' %}">notifications </a></span>
+<span ><a class="hello-msg" href="{% url 'commentaire' %}">ajouter commentaire </a></span>
 <span ><a class="hello-msg" href="{% url 'logout' %}">Logout</a></span>
 <hr>
-<div class="container">
-  <h1 class="text-center">List of Voyages</h1>
-  <hr>
-
-  {% for voyage in voyages %}
-      <div class="card mb-4">
-          <div class="card-body">
-              <h2 class="card-title">{{ voyage.titre }}</h2>
-              <p class="card-text">{{ voyage.description }}</p>
-              <ul class="list-unstyled">
-                  <li><strong>Departure Date:</strong> {{ voyage.date_depart }}</li>
-                  <li><strong>Arrival Date:</strong> {{ voyage.date_arrivee }}</li>
-                  <li><strong>Price:</strong> ${{ voyage.prix }}</li>
-                  <li><strong>Available Places:</strong> {{ voyage.nbr_places }}</li>
-                  <li><strong>categorie:</strong> {{ voyage.categorie }}</li>
-              </ul>
-              {% if voyage.image_voyage %}
-                  <img src="{{ voyage.image_voyage.url }}" alt="{{ voyage.titre }} Image" class="img-fluid">
-              {% endif %}
-              <span ><a class="hello-msg" href="{% url 'reserve' voyage.id %}">je reserve</a></span>
-          </div>
-      </div>
-  {% endfor %}
-</div>

@@ -546,6 +546,13 @@ border-radius: 4px;
         width: 800px; 
       } 
       } 
+
+      span .nav-link ,span h4{
+        font-size: 0.8em !important;
+      }
+      h4 span a{
+        padding: .0rem .1rem !important;
+      }
 	</style>
 </head> 
 
@@ -555,9 +562,8 @@ border-radius: 4px;
 	<header> 
 
 		<div class="logosec"> 
-			<div class="logo">dirEngine.</div> 
-			<img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
+			<div class="logo"><a href="{% url 'home'  %}" class="navbar-brand" style="color:rgb(201, 81, 33); font-size: 27px; font-weight: 600;">dirEngine.</a></div> 
+			<img src= "https://media.geeksforgeeks.org/wp-content/uploads/20221210182541/Untitled-design-(30).png"
 				class="icn menuicn"
 				id="menuicn"
 				alt="menu-icon"> 
@@ -589,42 +595,47 @@ border-radius: 4px;
 				<div class="nav-upper-options"> 
 					<div class="nav-option option1"> 
 						
-						<h3> <span><a class="nav-link" href="{% url 'AdminPage' %}"> dashboard</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'AdminPage' %}"> dashboard</a></span></h4> 
 					</div> 
 
 					<div class="option2 nav-option"> 
 					
-						<h3> <span><a class="nav-link" href="{% url 'admins' %}" class="text-dark">Les Administrateurs</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'admins' %}" class="text-dark">Les Administrateurs</a></span></h4> 
 					</div> 
 
 					<div class="nav-option option3"> 
 						
-						<h3> <span><a class="nav-link" href="{% url 'voyages' %}" class="text-dark"> Les Voyages</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'voyages' %}" class="text-dark"> Les Voyages</a></span></h4> 
 					</div> 
 
 					<div class="nav-option option4"> 
 						
-						<h3> <span><a class="nav-link" href="{% url 'categories' %}" class="text-dark"> Les Catégories</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'categories' %}" class="text-dark"> Les Catégories</a></span></h4> 
 					</div> 
 
 					<div class="nav-option option5"> 
 					
-						<h3> <span><a class="nav-link" href="{% url 'hotels' %}" class="text-dark"> Les Hôtels</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'hotels' %}" class="text-dark"> Les Hôtels</a></span></h4> 
 					</div> 
 
 					<div class="nav-option option6"> 
 					
-						<h3> <span><a class="nav-link" href="{% url 'vols' %}" class="text-dark"> Les Vols</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'vols' %}" class="text-dark"> Les Vols</a></span></h4> 
 					</div> 
 
 					<div class="nav-option option7"> 
 					
-						<h3> <span><a class="nav-link" href="{% url 'clients' %}" class="text-dark"> Les Clients</a></span></h3> 
+						<h4> <span><a class="nav-link" href="{% url 'clients' %}" class="text-dark"> Les Clients</a></span></h4> 
+					</div> 
+
+          <div class="nav-option option8"> 
+					
+						<h4> <span><a class="nav-link" href="{% url 'promotions' %}" class="text-dark"> Les Promotions</a></span></h4> 
 					</div> 
 
 					<div class="nav-option logout"> 
 						
-						<h3><span ><a class="nav-link" class="hello-msg" href="{% url 'logout' %}">Logout</a></span></h3> 
+						<h4><span ><a class="nav-link" class="hello-msg" href="{% url 'logout' %}">Logout</a></span></h4> 
 					</div> 
 
 				</div> 
@@ -634,5 +645,5 @@ border-radius: 4px;
 
 		
 
-</body> 
+</body> 
 </html>
