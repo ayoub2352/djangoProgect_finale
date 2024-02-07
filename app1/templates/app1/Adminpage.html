@@ -1,64 +1,197 @@
 {% extends 'app1/mainAdmin.html' %}
 
 {% block content %}
-<!-- <div class="main"> 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reservation Charts</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="reservationChart" width="400" height="200"></canvas>
+            </div>
+            <div class="col-md-6">
+                <canvas id="categoryChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <canvas id="clientCreationChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+  
+    <script>
+        // Code for rendering the first chart
+        var ctx1 = document.getElementById('reservationChart').getContext('2d');
+        var dataJsonString = '{{ data_json|escapejs|safe }}';
+        console.log("Data JSON string:", dataJsonString);
+        
+        var data;
+        try {
+            data = JSON.parse(dataJsonString);
+            console.log("Parsed data:", data);
+            
+            var labels = [];
+            var counts = [];
+            data.forEach(function(item) {
+                labels.push(item.date_reservation);
+                counts.push(item.reservation_count);
+            });
+        
+            var chart1 = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Reservations per Day',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1,
+                        data: counts
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Réservations par jour',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error parsing JSON:", error);
+            // Handle error gracefully, if needed
+        }
 
-  <div class="searchbar2"> 
-    <input type="text"
-      name=""
-      id=""
-      placeholder="Search"> 
-    <div class="searchbtn"> 
-    <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png"
-        class="icn srchicn"
-        alt="search-button"> 
-    </div> 
-  </div> 
+        // Code for rendering the second chart
+        var ctx2 = document.getElementById('categoryChart').getContext('2d');
+        var categoryDataJsonString = '{{ category_data_json|escapejs|safe }}';
+        console.log("Category Data JSON string:", categoryDataJsonString);
 
-  <div class="box-container"> 
+        var categoryData;
+        try {
+            categoryData = JSON.parse(categoryDataJsonString);
+            console.log("Parsed category data:", categoryData);
 
-    <div class="box box1"> 
-      <div class="text"> 
-        <h2 class="topic-heading">60.5k</h2> 
-        <h2 class="topic">Article Views</h2> 
-      </div> 
+            var categoryLabels = [];
+            var categoryPercentages = [];
+            categoryData.forEach(function(item) {
+                categoryLabels.push(item.category);
+                categoryPercentages.push(item.percentage);
+            });
 
-      <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(31).png"
-        alt="Views"> 
-    </div> 
+            var chart2 = new Chart(ctx2, {
+                type: 'pie',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        label: 'Percentage of Reservations by Category',
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                            'rgba(255, 159, 64, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)',
+                            'rgba(255, 159, 64, 1)'
+                        ],
+                        borderWidth: 1,
+                        data: categoryPercentages
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Pourcentage de réservations par catégorie',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error parsing category JSON:", error);
+            // Handle error gracefully, if needed
+        }
 
-    <div class="box box2"> 
-      <div class="text"> 
-        <h2 class="topic-heading">150</h2> 
-        <h2 class="topic">Likes</h2> 
-      </div> 
+        // Code for rendering the third chart (Client Creation)
+        var ctx3 = document.getElementById('clientCreationChart').getContext('2d');
+        var clientCreationDataJsonString = '{{ client_creation_json|escapejs|safe }}';
+        console.log("Client Creation Data JSON string:", clientCreationDataJsonString);
 
-      <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210185030/14.png"
-        alt="likes"> 
-    </div> 
+        var clientCreationData;
+        try {
+            clientCreationData = JSON.parse(clientCreationDataJsonString);
+            console.log("Parsed client creation data:", clientCreationData);
 
-    <div class="box box3"> 
-      <div class="text"> 
-        <h2 class="topic-heading">320</h2> 
-        <h2 class="topic">Comments</h2> 
-      </div> 
+            var clientCreationLabels = [];
+            var clientCreationCounts = [];
+            clientCreationData.forEach(function(item) {
+                clientCreationLabels.push(item.date_joined);
+                clientCreationCounts.push(item.client_count);
+            });
 
-      <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210184645/Untitled-design-(32).png"
-        alt="comments"> 
-    </div> 
+            var chart3 = new Chart(ctx3, {
+                type: 'bar',
+                data: {
+                    labels: clientCreationLabels,
+                    datasets: [{
+                        label: 'Number of Clients Created Accounts per Day',
+                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                        borderColor: 'rgba(255, 99, 132, 1)',
+                        borderWidth: 1,
+                        data: clientCreationCounts
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Nombre de clients qui ont créé des comptes chaque jour',
+                            font: {
+                                size: 16
+                            }
+                        }
+                    }
+                }
+            });
+        } catch (error) {
+            console.error("Error parsing client creation JSON:", error);
+            // Handle error gracefully, if needed
+        }
+    </script>
+</body>
+</html>
 
-    <div class="box box4"> 
-      <div class="text"> 
-        <h2 class="topic-heading">70</h2> 
-        <h2 class="topic">Published</h2> 
-      </div> 
-
-      <img src= 
-"https://media.geeksforgeeks.org/wp-content/uploads/20221210185029/13.png" alt="published"> 
-    </div> 
-  </div>  -->
 {% endblock content %}

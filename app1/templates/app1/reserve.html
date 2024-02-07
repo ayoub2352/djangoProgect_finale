@@ -5,8 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <script src="https://js.stripe.com/v3/"></script>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
   <style type="text/css">
-    .StripeElement{
+    .StripeElement {
       box-sizing: border-box;
       height: 40px;
       padding: 10px 12px;
@@ -18,34 +20,39 @@
       transition: box-shadow 150ms ease;
     }
 
-    .StripeElement--focus{
+    .StripeElement--focus {
       box-shadow: 0 1px 3px 0 #c7d7df;
     }
 
-    .StripeElement--invalid{
+    .StripeElement--invalid {
       border-color: #fa755a;
     }
 
-    .StripeElement--webkit-autofill{
+    .StripeElement--webkit-autofill {
       background-color: #fefde5 !important;
     }
   </style>
 </head>
 <body>
-  <h1>reserve form</h1>
-  <a class="btn btn-warning" href="{% url 'client' %}"> &#8592; Back to Profile</a>
-  <form action="{%url 'reserve' voyageid %}" method="post" id="payement-form">
-    {% csrf_token %}
-    <div class="form-row">
-      <label for="card-element">Credit or debit card</label>
-      <div id="card-element">
-        <!-- a stripe element will be inserted here -->
+
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <form action="{% url 'reserve' voyageid %}" method="post" id="payment-form">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="card-element">Credit or debit card</label>
+            <div id="card-element" class="form-control">
+              <!-- a stripe element will be inserted here -->
+            </div>
+            <!-- used to dispaly form errors -->
+            <div id="card-errors" role="alert"></div>
+          </div>
+          <button type="submit" class="btn btn-primary">Submit payment</button>
+        </form>
       </div>
-      <!-- used to dispaly form errors -->
-      <div id="card-errors" role="alert"></div>
     </div>
-    <button> Submit payment</button>
-  </form>
+  </div>
 
   <script>
     var stripe=Stripe('pk_test_51MxJ30AhdCO5CiRy5Q46iy7WXAgJR3r4NwgSMiuHl40Pv55mkDLIdQ6hPeOZNvi3ZDThamoOkLpbxGCSKa62lHAV00t3uvIdhB');
@@ -57,7 +64,7 @@
         fontFamily : '"Helvetica Neue",Helvetica,sans-serif',
         fontSmoothing : 'antialiased',
         fontSize : '16px',
-        '::placeholder':{
+        '::placeholder': {
           color : 'aab7c4'
         }
       },
@@ -78,7 +85,7 @@
       }
     });
 
-    var form = document.getElementById('payement-form');
+    var form = document.getElementById('payment-form');
     form.addEventListener('submit',function(event){
       event.preventDefault();
 
@@ -96,7 +103,7 @@
     //submit the form with the token id
     function stripeTokenHandler(token){
       //insert the token id into the form so its gets submitted to the server
-      var form = document.getElementById('payement-form');
+      var form = document.getElementById('payment-form');
       var hiddenInput = document.createElement('input');
       hiddenInput.setAttribute('type','hidden');
       hiddenInput.setAttribute('name','stripeToken');

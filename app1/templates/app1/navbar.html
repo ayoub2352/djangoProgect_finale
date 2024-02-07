@@ -42,7 +42,7 @@ form input, form select {
 
     <div class="collapse navbar-collapse" id="ftco-nav">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active"><a href="{% url 'home'  %}" class="nav-link">Home</a></li>
+        <li class="nav-item active"><a href="{% url 'home'  %}" class="nav-link">Accueil</a></li>
         {% if not user.is_authenticated %}
             <li class="nav-item cta"><a href="{% url 'login' %}" class="nav-link"><span>Se connecter</span></a></li>
         {% else %}
@@ -172,7 +172,7 @@ form input, form select {
                 </select>
               </div>
         
-              <input type="submit" class="search-submit btn btn-primary" style="border-radius: 0px; margin-left:" value="Search">  
+              <input type="submit" class="search-submit btn btn-primary" style="border-radius: 0px; margin-left:" value="Chercher">  
             </div>
      
           </form>
@@ -188,8 +188,8 @@ form input, form select {
         <div class="media block-6 services d-block text-center">
           <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-guarantee"></span></div></div>
           <div class="media-body p-2 mt-2">
-            <h3 class="heading mb-3">Best Price Guarantee</h3>
-            <p>A small river named Duden flows by their place and supplies.</p>
+            <h3 class="heading mb-3">Garantie du meilleur prix</h3>
+            <p>Notre garantie du meilleur prix vous assure les tarifs les plus compétitifs pour votre voyage, vous offrant ainsi une tranquillité d'esprit totale lors de votre réservation.</p>
           </div>
         </div>      
       </div>
@@ -197,8 +197,8 @@ form input, form select {
         <div class="media block-6 services d-block text-center">
           <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-like"></span></div></div>
           <div class="media-body p-2 mt-2">
-            <h3 class="heading mb-3">Travellers Love Us</h3>
-            <p>A small river named Duden flows by their place and supplies.</p>
+            <h3 class="heading mb-3">Les voyageurs nous aiment</h3>
+            <p>Nos voyageurs nous adorent ! Leurs retours positifs témoignent de notre engagement à offrir des expériences de voyage exceptionnelles.</p>
           </div>
         </div>    
       </div>
@@ -206,8 +206,10 @@ form input, form select {
         <div class="media block-6 services d-block text-center">
           <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-detective"></span></div></div>
           <div class="media-body p-2 mt-2">
-            <h3 class="heading mb-3">Best Travel Agent</h3>
-            <p>A small river named Duden flows by their place and supplies.</p>
+            <h3 class="heading mb-3">Meilleur agent de voyages</h3>
+            <p>
+              
+En tant qu'agent de voyages, nous sommes votre partenaire privilégié. Expertise, service clientèle exceptionnel et engagement total envers votre satisfaction : voilà notre promesse.</p>
           </div>
         </div>      
       </div>
@@ -215,8 +217,9 @@ form input, form select {
         <div class="media block-6 services d-block text-center">
           <div class="d-flex justify-content-center"><div class="icon"><span class="flaticon-support"></span></div></div>
           <div class="media-body p-2 mt-2">
-            <h3 class="heading mb-3">Our Dedicated Support</h3>
-            <p>A small river named Duden flows by their place and supplies.</p>
+            <h3 class="heading mb-3">Notre support dédié</h3>
+            <p>
+              Nous offrons un support dédié à tous nos clients, garantissant une assistance personnalisée à chaque étape de votre voyage.</p>
           </div>
         </div>      
       </div>

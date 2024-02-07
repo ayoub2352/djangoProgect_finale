@@ -3,42 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservation Information</title>
+    <title>La Facture</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1 style="background-color: red;">Invoice</h1>
-    <h1>Reservation ID: {{ res_id }}</h1>
+    <div class="container" >
+        <h1>Identifiant de Réservation : {{ res_id }}</h1>
 
-    <h2>Information about the client</h2>
-    <p>Client Name: {{ client.fk_user.username }}</p>
-    <p>Client Email: {{ client.fk_user.email }}</p>
-    <p>Client Gender: {{ client.get_sexe_display }}</p>  <!-- Display the verbose name of the gender field -->
-    <p>Client Telephone: {{ client.telephone }}</p>
-    <p>Client Address: {{ client.adresse }}</p>
-    <p>Client CIN: {{ client.CIN }}</p>
-    <p>Client Balance: {{ client.solde }}</p>
-    <!-- Add any other fields from the Client model as needed -->
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Informations sur le Client</h2>
+                <p>Nom du Client : {{ client.fk_user.username }}</p>
+                <p>Email du Client : {{ client.fk_user.email }}</p>
+                <p>Genre du Client : {{ client.get_sexe_display }}</p>
+                <p>Téléphone du Client : {{ client.telephone }}</p>
+                <p>Adresse du Client : {{ client.adresse }}</p>
+                <p>CIN du Client : {{ client.CIN }}</p>
+            </div>
+            <div class="col-md-6">
+                <h2>Informations sur le Voyage</h2>
+                <h3>Informations de Réservation pour l'ID du Voyage : {{ voyage.id }}</h3>
+                <p>Description du Voyage : {{ voyage.description }}</p>
+                <p>Montant Payé : {{ voyage.prix }}</p>
+            </div>
+        </div>
 
-    <h2>Information about the voyage</h2>
-    <h3>Reservation Information for Voyage ID: {{ voyage.id }}</h3>
-    <p>Voyage Description: {{ voyage.description }}</p>
-    <p>Amount Paid: {{ voyage.prix }}</p>
-
-    <h2>Hotel Information</h2>
-    <p>Hotel Name: {{ hotel.nom }}</p>
-    <p>Hotel Stars: {{ hotel.get_nbr_etoiles_display }}</p>  <!-- Display the verbose name of the stars field -->
-    <p>Number of Rooms: {{ hotel.nbr_chambres }}</p>
-
-    <h2>Flight Information</h2>
-    <p>Flight Title: {{ vol.titre }}</p>
-    <p>Departure Date: {{ vol.date_depart }}</p>
-    <p>Arrival Date: {{ vol.date_arrive }}</p>
-    <p>Compagnie: {{ vol.compagnie }}</p>
-    <p>Class: {{ vol.get_classe_display }}</p>  <!-- Display the verbose name of the class field -->
-    <p>Escale: {{ vol.escale }}</p>
-    <p>Departure City: {{ vol.ville_depart }}</p>
-    <p>Arrival City: {{ vol.ville_arrive }}</p>
-    <p>Duration (hours): {{ vol.nbr_heure }}</p>
-
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Informations sur l'Hôtel</h2>
+                <p>Nom de l'Hôtel : {{ hotel.nom }}</p>
+                <p>Étoiles de l'Hôtel : {{ hotel.nbr_etoiles }}</p> 
+            </div>
+            <div class="col-md-6">
+                <h2>Informations sur le Vol</h2>
+                <p>Titre du Vol : {{ vol.titre }}</p>
+                <p>Date de Départ : {{ vol.date_depart }}</p>
+                <p>Date d'Arrivée : {{ vol.date_arrive }}</p>
+                <p>Compagnie : {{ vol.compagnie }}</p>
+                <p>Classe : {{ vol.get_classe_display }}</p>
+                <p>Escales : {{ vol.escale }}</p>
+                <p>Ville de Départ : {{ vol.ville_depart }}</p>
+                <p>Ville d'Arrivée : {{ vol.ville_arrive }}</p>
+                <p>Durée (heures) : {{ vol.nbr_heure }}</p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

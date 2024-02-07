@@ -93,20 +93,81 @@ def register(request): #
 @login_required(login_url='home') #ila makanch mconecti aymchi l home
 @allowed_users(allowed_roles=['client']) #katkhli ghir clients homa li ydkhlo t9dr tbdl roles kima bghiti 3la 7sab groups 
 def ClientPage(request): 
-    # voyages = Voyage.objects.all()
     user = request.user
-    print(voyages)  
-    # breakpoint() 
-
-    context ={'user':user}
+    #for notifications :
+    id_user = request.user.id
+    client = get_object_or_404(Client, fk_user=id_user)
+    notifications = Notification.objects.filter(client=client)[:3] 
+    reservations =Client_voyage.objects.filter(fk_client=client.id)[:3]
+    context ={'user':user, 'notifications': notifications , 'reservations':reservations}
     return render(request , 'app1/ClientPage.html',context)
 
 
+
+from django.shortcuts import render
+from django.db.models import Count, Sum
+from .models import Client_voyage, Voyage
+import json
+
+from django.db.models import Count, Sum, DateField
+from django.db.models.functions import TruncDate
+
 @login_required(login_url='home') 
 @allowed_users(allowed_roles=['admin'])
-def AdminPage(request):      
-    context ={}
-    return render(request , 'app1/AdminPage.html',context)
+def AdminPage(request):
+    # Aggregate reservation counts by date
+    data = Client_voyage.objects.values('date_reservation').annotate(reservation_count=Count('id'))
+    print(data)
+    # Convert data to list of dictionaries
+    data_list = [{'date_reservation': item['date_reservation'].strftime('%Y-%m-%d'), 'reservation_count': item['reservation_count']} for item in data]
+
+    # Convert data to JSON string
+    data_json = json.dumps(data_list)
+
+    # Aggregate reservation counts by voyage category
+    category_data = Voyage.objects.values('categorie__nom').annotate(total_reservations=Count('client_voyage'))
+
+    # Calculate total number of reservations
+    total_reservations = sum(item['total_reservations'] for item in category_data)
+
+    # Calculate percentage for each category
+    category_percentage_data = [{'category': item['categorie__nom'], 'percentage': (item['total_reservations'] / total_reservations) * 100} for item in category_data]
+
+    # Convert category data to JSON string
+    category_data_json = json.dumps(category_percentage_data)
+
+    # Aggregate total amount paid per day
+    revenue_data = Client_voyage.objects.values('date_reservation').annotate(total_amount_paid=Sum('amountPaid'))
+
+    # Convert revenue data to list of dictionaries
+    revenue_list = [{'date_reservation': item['date_reservation'].strftime('%Y-%m-%d'), 'total_amount_paid': item['total_amount_paid']} for item in revenue_data]
+
+    # Convert revenue data to JSON string
+    revenue_data_json = json.dumps(revenue_list)
+
+    # Aggregate number of clients created accounts per day
+    client_creation_data = Client.objects.annotate(date_joined=TruncDate('fk_user__date_joined')).values('date_joined').annotate(client_count=Count('id'))
+
+    # Convert client creation data to list of dictionaries
+    client_creation_list = [{'date_joined': item['date_joined'].strftime('%Y-%m-%d'), 'client_count': item['client_count']} for item in client_creation_data]
+
+    # Convert client creation data to JSON string
+    client_creation_json = json.dumps(client_creation_list)
+
+    # Pass all the rendered HTML and the JSON data in the context
+    context = {
+        'data_json': data_json,
+        'category_data_json': category_data_json,
+        'revenue_data_json': revenue_data_json,
+        'client_creation_json': client_creation_json,  # Include the new data in the context
+    }
+
+    # Render the HTML file
+    return render(request, 'app1/AdminPage.html', context)
+
+
+
+
 
 def logoutUser(request):
   logout(request) #defauLt method dyal django
@@ -135,6 +196,7 @@ def ClientSettings(request) :
       form = ClientSettingsForm(request.POST, request.FILES,instance=client)
       if form.is_valid():
         form.save()
+        return redirect('client')
   context={'form':form}
   return render(request,'app1/ClientSettings.html',context)
 
