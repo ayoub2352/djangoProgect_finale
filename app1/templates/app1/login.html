@@ -129,11 +129,17 @@
               {% comment %} <input type="text" placeholder="Enter your name" required> {% endcomment %}
               {% comment %} {{ form.username }} {% endcomment %}
               {{ form.username }}
+              {% for error in form.errors %}
+                  <span class="error">{{ error }}</span>
+              {% endfor %}
             </div>
             <div class="input-box">
               <span class="details">Email</span>
               {% comment %} <input type="text" placeholder="Enter your username" required> {% endcomment %}
               {{ form.email }}
+              {% for error in form.name.email %}
+                  <span class="error">{{ error }}</span>
+              {% endfor %}
             </div>
             <div class="input-box">
               <span class="details">Mot de passe</span>

@@ -73,7 +73,7 @@ def register(request): #
         form = ClientRegistrationForm(request.POST)
         print("form : ",form.is_valid())
         print("data : ",request.POST)
-        breakpoint()
+        # breakpoint()
         if form.is_valid():
             form.save()
             user = form.cleaned_data.get('username') #to get user name from the form
@@ -81,6 +81,8 @@ def register(request): #
             return redirect('login')
         else:
             print("not valid form")
+            print(form.errors)
+            # breakpoint()
             return redirect('./#!',{'form': form})
     else:
         form = ClientRegistrationForm()
@@ -91,9 +93,12 @@ def register(request): #
 @login_required(login_url='home') #ila makanch mconecti aymchi l home
 @allowed_users(allowed_roles=['client']) #katkhli ghir clients homa li ydkhlo t9dr tbdl roles kima bghiti 3la 7sab groups 
 def ClientPage(request): 
-    voyages = Voyage.objects.all()
-    print(voyages)    
-    context ={'voyages':voyages}
+    # voyages = Voyage.objects.all()
+    user = request.user
+    print(voyages)  
+    # breakpoint() 
+
+    context ={'user':user}
     return render(request , 'app1/ClientPage.html',context)
 
 
