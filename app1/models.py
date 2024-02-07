@@ -90,6 +90,9 @@ class Voyage(models.Model):
     hotel = models.ForeignKey('Hotel',on_delete=models.CASCADE)
     def __str__(self) : 
      return self.titre
+    
+    def getShortInfo(self):
+        return self.description[:30]+"..."
 
 class Client_voyage(models.Model):
     fk_client = models.ForeignKey(Client, on_delete=models.CASCADE)

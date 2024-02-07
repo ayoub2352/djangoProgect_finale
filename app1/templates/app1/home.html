@@ -73,10 +73,10 @@
                                 <h3><a href="#">{{voyage.titre}}</a></h3>
                             </div>
                             <div class="two">
-                                <span class="price">${{voyage.prix}}</span>
+                                <span class="price">{{voyage.prix}}  Dhs</span>
                             </div>
                         </div>
-                        <p>{{voyage.description}}</p>
+                        <p>{{voyage.getShortInfo}}</p>
                         <p class="days"><span>From  {{ voyage.date_depart }} To {{ voyage.date_arrivee }} <span></p>
                         <hr>
                         <p class="bottom-area d-flex">

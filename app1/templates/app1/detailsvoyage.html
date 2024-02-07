@@ -191,7 +191,7 @@
                     {% if user.is_authenticated %}
                       <a class="hello-msg" href="{% url 'reserve' voyage.id %}"><input class="btn btn-primary btn-block mb-4 mx-auto" style="width:40%;" type="submit" value="je reserve"></a>
                     {% else %}
-                    <a class="hello-msg" href="{% url 'home' %}"><input class="btn btn-primary btn-block mb-4 mx-auto" style="width: 40%;" type="submit" value="Se connecter pour reserver"></a>
+                    <a class="hello-msg" href="{% url 'login' %}"><input class="btn btn-primary btn-block mb-4 mx-auto" style="width: 40%;" type="submit" value="Se connecter pour reserver"></a>
                     {% endif %}
                   </div>
           	</div>
